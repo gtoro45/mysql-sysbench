@@ -59,7 +59,7 @@ for i in $(seq 1 $NUM_INSTANCES); do
             --mysql-password='ubuntu' \
             --mysql-port=$((BASE_PORT + i - 1)) \
             --report-interval=10 \
-            --percentile=85\
+            --percentile=95\
             prepare > /dev/null &
 done
 
@@ -72,11 +72,9 @@ printf "\n"
 
 # Run TPCC Tests
 echo "==== Running Benchmarks ===="
+OUT_PATH="/home/ubuntu/workloads/MySQL/raw/TPCC/${NUM_CPUs}vCPUs_${NUM_INSTANCES}_instances/${THREADS}_threads/out"
+mkdir -p $OUT_PATH
 for i in $(seq 1 $NUM_INSTANCES); do
-    OUT_PATH="/home/ubuntu/workloads/MySQL/raw/TPCC/${NUM_CPUs}vCPUs_${NUM_INSTANCES}_instances/${THREADS}_threads/out"
-    ERR_PATH="/home/ubuntu/workloads/MySQL/raw/TPCC/${NUM_CPUs}vCPUs_${NUM_INSTANCES}_instances/${THREADS}_threads/err"
-    mkdir -p $OUT_PATH
-    mkdir -p $ERR_PATH
     sysbench $LUA_FILE \
             --tables=$TABLES \
             --scale=$SCALE \
@@ -88,11 +86,10 @@ for i in $(seq 1 $NUM_INSTANCES); do
             --mysql-password='ubuntu' \
             --mysql-port=$((BASE_PORT + i - 1)) \
             --report-interval=10 \
-            --percentile=85\
-            run > "${OUT_PATH}/inst_${i}_TPCC.out" 2> "${ERR_PATH}/inst_${i}_TPCC.err" &
+            --percentile=95\
+            run > "${OUT_PATH}/inst_${i}_TPCC.out" 2>&1 &
     echo "Instance ${i} data can be found in:"
     echo "$OUT_PATH"
-    echo "$ERR_PATH"
 done
 
 # Wait before cleanup
