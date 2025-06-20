@@ -4,6 +4,7 @@
 
 # ==== User defined variables ====
 $HOST_ADDRESS=""
+$SQL_PASS=""
 TIME=180
 BASE_PORT=3306
 
@@ -27,7 +28,7 @@ for i in $(seq 1 $NUM_INSTANCES); do
             --mysql-host=$HOST_ADDRESS \
             --mysql-db=testdb \
             --mysql-user=root \
-            --mysql-password='ubuntu' \
+            --mysql-password=$SQL_PASS \
             --mysql-port=$((BASE_PORT + i - 1)) \
             --report-interval=10 \
             --percentile=95\
@@ -55,7 +56,7 @@ for i in $(seq 1 $NUM_INSTANCES); do
             --mysql-host=$HOST_ADDRESS \
             --mysql-db=testdb \
             --mysql-user=root \
-            --mysql-password='ubuntu' \
+            --mysql-password=$SQL_PASS \
             --mysql-port=$((BASE_PORT + i - 1)) \
             --report-interval=10 \
             --percentile=95\
@@ -83,7 +84,7 @@ for i in $(seq 1 $NUM_INSTANCES); do
             --mysql-host=$HOST_ADDRESS \
             --mysql-db=testdb \
             --mysql-user=root \
-            --mysql-password='ubuntu' \
+            --mysql-password=$SQL_PASS \
             --mysql-port=$((BASE_PORT + i - 1)) \
             --report-interval=10 \
             --percentile=95\
